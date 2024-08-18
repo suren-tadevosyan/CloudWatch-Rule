@@ -16,7 +16,7 @@
     }
   ],
   "env_variables": {
-    "target_bucket": "uuid-storage"
+    "target_bucket": "cmtr-9e10393e-uuid-storage"
   },
   "publish_version": false,
   "url_config": {},

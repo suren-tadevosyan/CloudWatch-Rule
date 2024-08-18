@@ -4,6 +4,7 @@
       "Statement": [
         {
           "Action": [
+            "s3:PutObject",
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
             "logs:PutLogEvents",
@@ -14,8 +15,7 @@
             "dynamodb:DeleteItem",
             "ssm:PutParameter",
             "ssm:GetParameter",
-            "kms:Decrypt",
-            "s3:PutObject"
+            "kms:Decrypt"
           ],
           "Effect": "Allow",
           "Resource": "*"

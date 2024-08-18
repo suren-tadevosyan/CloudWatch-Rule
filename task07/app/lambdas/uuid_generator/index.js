@@ -20,10 +20,12 @@ export const handler = async (event, context) => {
   };
 
   try {
-    await s3.send(new PutObjectCommand(params));
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
     console.log(`File ${fileName} created successfully.`);
   } catch (err) {
     console.error(`Error uploading file ${fileName}:`, err);
     throw new Error(`Error uploading file ${fileName}`);
   }
+  return { statusCode: 200, body: "Success" };
 };
