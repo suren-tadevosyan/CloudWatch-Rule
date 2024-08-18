@@ -2,7 +2,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
 
 const s3 = new S3Client();
-const BUCKET_NAME = process.env.BUCKET_NAME || "uuid-storage";
+const BUCKET_NAME = process.env.BUCKET_NAME || "cmtr-9e10393e-uuid-storage";
 
 export const handler = async (event, context) => {
   const timestamp = new Date().toISOString();
