@@ -2,34 +2,36 @@ import AWS from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 
 const s3 = new AWS.S3();
+
 const BUCKET_NAME = process.env.BUCKET_NAME || "uuid-storage";
 
-export const handler = async () => {
-  const executionStartTime = new Date();
-  const executionTimeStr = executionStartTime.toISOString();
-  const fileName = `${executionTimeStr}.json`;
-  const uuidList = [];
+export const handler = async (event) => {
+  const ids = Array.from({ length: 10 }, () => uuidv4());
 
-  for (let i = 0; i < 10; i++) {
-    uuidList.push(uuidv4());
-  }
+  const content = {
+    ids: ids,
+  };
 
-  const fileContent = JSON.stringify({ ids: uuidList }, null, 2);
+  const jsonContent = JSON.stringify(content);
 
-  const s3Params = {
+  const params = {
     Bucket: BUCKET_NAME,
-    Key: fileName,
-    Body: fileContent,
+    Key: `${timestamp}.json`,
+    Body: jsonContent,
     ContentType: "application/json",
   };
 
   try {
-    await s3.putObject(s3Params).promise();
-    console.log(`Successfully uploaded ${fileName} to ${BUCKET_NAME}`);
+    await s3.putObject(params).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify("File created successfully."),
+    };
   } catch (error) {
-    console.error("Error uploading to S3:", error);
-    throw error;
+    console.error(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify("Failed to create file."),
+    };
   }
-
-  return { statusCode: 200, body: "Success" };
 };
